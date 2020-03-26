@@ -1,4 +1,4 @@
-import { GET_COORDINATES_FROM_BROWSER, FETCH_WEATHER, FETCH_NAME_FROM_COORDINATES, CLEAR_ERROR } from "./types";
+import { GET_COORDINATES_FROM_BROWSER, FETCH_WEATHER, FETCH_NAME_FROM_COORDINATES, CLEAR_ERROR, SEARCH_BY_PLACE } from "./types";
 
 const CORS_ANYWHERE = "https://cors-anywhere.herokuapp.com/"
 
@@ -81,3 +81,5 @@ export const fetchPlaceName = location => {
         });
     };
 };
+
+export const searchByPlace = (location, searchByPlace) => ({ type: SEARCH_BY_PLACE, location, searchByPlace })

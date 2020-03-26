@@ -11,10 +11,12 @@ export function reducer(state, action) {
         case CLEAR_ERROR:
             return { ...state, error: null }
         case SEARCH_BY_PLACE:
-            if (state.searchByPlace) {
-                return { ...state, location: { city: action.location.city, latitude: action.location.latitude, longitude: action.location.longitude }, searchByPlace: false }
+            if (action.searchByPlace) {
+                return {
+                    ...state, location: { city: action.location.city, latitude: action.location.latitude, longitude: action.location.longitude }, searchByPlace: true
+                }
             } else {
-                return { ...state, location: { city: action.location.city, latitude: action.location.latitude, longitude: action.location.longitude }, searchByPlace: true }
+                return { ...state, searchByPlace: false }
             }
         default:
             return state;

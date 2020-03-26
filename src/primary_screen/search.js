@@ -1,24 +1,7 @@
-// import React from 'react'
-
-// export default async function finder({ value }) {
-//     let suggestions = await fetch(`https://photon.komoot.de/api/?q=${value}&osm_tag=place:city&limit=1`)
-//     suggestions = await suggestions.json()
-//     console.log(suggestions.features.map((place) => (
-//         {
-//             suggestion:
-//                 <div className='suggestion'>
-//                     <span className='name'>{place.properties.name}</span>
-//                     <span className='details'>{place.properties.state + place.properties.country}</span>
-//                 </div>,
-//             coordinates: place.geometry.coordinates
-//         }
-//     )))
-// }
-
-
 //This component as a search bar and a display bar combo.
 import React from "react";
-import { FETCH_PLACE, SEARCH_BY_PLACE } from "../redux/types"
+// import { SEARCH_BY_PLACE } from "../redux/types"
+import { searchByPlace } from '../redux/actions'
 import { connect } from "react-redux";
 
 class fetchResults extends React.Component {
@@ -61,7 +44,7 @@ class fetchResults extends React.Component {
                             }));
                         });
                 }
-            }, 3000)
+            }, 1000)
         })
     }
 
@@ -85,7 +68,7 @@ class fetchResults extends React.Component {
             prevTyped: prevState.prediction,
             typed: prevState.prediction
         }));
-        this.props.setCity({ city: this.state.typed, latitude: this.state.coordinates[0], longitude: this.state.coordinates[1] })
+        this.props.setCity({ city: this.state.prediction, latitude: this.state.coordinates[1], longitude: this.state.coordinates[0] })
 
     }
 
@@ -121,6 +104,7 @@ class fetchResults extends React.Component {
                     value={this.state.typed}
                     onChange={this.onChange}
                     style={{
+                        overflow: 'visible',
                         width: this.props.width,
                         padding: 0,
                         backgroundColor: "white",
@@ -148,7 +132,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    setCity: (location) => dispatch({ type: SEARCH_BY_PLACE, location })
+    setCity: (location) => dispatch(searchByPlace(location, true))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(fetchResults)

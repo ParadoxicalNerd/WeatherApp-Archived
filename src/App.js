@@ -4,7 +4,7 @@ import PrimaryScreen from './primary_screen'
 import SecondaryScreen from './secondary_screen'
 
 import { connect } from 'react-redux'
-import { getCoordinates, fetchWeather, clearError, fetchPlaceName } from './redux/actions'
+import { getCoordinates, fetchWeather, clearError, fetchPlaceName, searchByPlace } from './redux/actions'
 
 import './index.scss'
 
@@ -36,17 +36,32 @@ class App extends React.Component {
 
     //TODO: Rerender entire screen after city name update
 
-    // shouldComponentUpdate() {
-    //     //TODO: 
+    shouldComponentUpdate(nextProps) {
+        console.log({
+            old: this.props.store.searchByPlace,
+            new: nextProps.store.searchByPlace
+        })
 
-    // }
+        // if (this.props.store.searchByPlace === false && nextProps.store.searchByPlace === true) {
+        //     return true
+        // } else 
+        if (this.props.store.searchByPlace === true && nextProps.store.searchByPlace === false) {
+            return false
+        } else {
+            return true
+        }
 
-    // componentDidUpdate() {
-    //     if (this.props.store.searchByPlace) {
-    //         this.setState({ fetchingData: true })
-    //         await this.props.fetchWeather(this.props.store.location)
-    //     }
-    // }
+    }
+
+    componentDidUpdate() {
+        if (this.props.store.searchByPlace) {
+            this.props.fetchWeather(this.props.store.location)
+                .then(
+                    this.props.stopSearchingByPlace()
+                )
+
+        }
+    }
 
     render() {
         if (!this.state.online) {
@@ -61,6 +76,7 @@ class App extends React.Component {
             this.componentToRender = <React.Fragment>
                 <PrimaryScreen temperature={this.props.store.weather.currently.temperature} city={this.props.store.location.city} summary={this.props.store.weather.currently.summary} icon={this.props.store.weather.currently.icon} />
                 <SecondaryScreen weather={this.props.store.weather.daily} />
+                <div style={{ position: "fixed", top: 0, left: 0 }}>Powered by DarkSky API</div>
             </React.Fragment>
         }
         return this.componentToRender
@@ -75,7 +91,8 @@ const mapDispatchToProps = (dispatch) => ({
     getCoordinates: () => dispatch(getCoordinates()),
     clearError: () => dispatch(clearError()),
     fetchWeather: (location) => dispatch(fetchWeather(location)),
-    fetchPlaceName: (location) => dispatch(fetchPlaceName(location))
+    fetchPlaceName: (location) => dispatch(fetchPlaceName(location)),
+    stopSearchingByPlace: () => dispatch(searchByPlace(null, false))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
