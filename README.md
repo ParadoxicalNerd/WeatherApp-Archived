@@ -1,4 +1,4 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+##Simple weather app
 
 Simple React app to show the weather to the user. The app fetches the user location from gps coordinates and fetches weather from the DarkSky API. User can also search for a place by clicking on the current location and typing the new place there.
 
