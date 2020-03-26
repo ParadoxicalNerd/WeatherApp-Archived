@@ -13,7 +13,7 @@ yarn build
 
 TODO:
 
-[DONE] 1) Implement refreshing of page when new location is typed out
+1) [DONE] Implement refreshing of page when new location is typed out
 
 2) Use external API to determine location if geocoding fails
 
