@@ -1,4 +1,5 @@
 import { GET_COORDINATES_FROM_BROWSER, FETCH_WEATHER, FETCH_NAME_FROM_COORDINATES, CLEAR_ERROR, SEARCH_BY_PLACE } from "./types";
+import { DarkSkyAPIKey } from '../secret/secret'
 
 const CORS_ANYWHERE = "https://cors-anywhere.herokuapp.com/"
 
@@ -43,7 +44,7 @@ export const fetchWeather = location => {
         return new Promise((resolve, reject) => {
             fetch(
                 CORS_ANYWHERE +
-                `https://api.darksky.net/forecast/0a9c9e4db3dc47f565165acc0aa9c9fe/${
+                `https://api.darksky.net/forecast/${DarkSkyAPIKey}/${
                 location.latitude
                 },${location.longitude}?extend=hourly?units=si`
             )
